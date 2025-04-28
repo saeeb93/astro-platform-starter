@@ -1,33 +1,30 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Markdown from '../../components/Markdown.astro';
-import ShapeEditor from './_components/ShapeEditor.tsx';
-import { uploadDisabled } from '../../utils';
-import ContextAlert from '../../components/ContextAlert.astro';
-
-const explainer = `
-[Netlify Blobs](https://docs.netlify.com/blobs/overview/) provides an object store for any kind of data, be it JSON, binary, 
-or [really](https://mk.gg/projects/chalkstream) anything else ([really!](https://mk.gg/projects/turbofan)). In this example, the blob store is used to **hold the data of user-generated random blobby shapes**.
-
-Below is an Astro island with a React component for editing, uploading and viewing blobs to the blob store 🙂.
-`;
-
-const uploadDisabledText = `
-User uploads are disabled in this site. To run your own and try it out: 
-<a href="https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/astro-platform-starter">
-<img src="https://www.netlify.com/img/deploy/button.svg" style="display: inline;" alt="Deploy to Netlify" />
-</a>
-`;
+import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Blobs">
-    <ContextAlert
-        addedChecksFunction={() => {
-            return uploadDisabled ? uploadDisabledText : null;
-        }}
-        class="mb-8"
-    />
-    <h1 class="mb-10">Blobs x Blobs</h1>
-    <Markdown content={explainer} class="mb-12" />
-    <ShapeEditor client:load />
+<Layout>
+  <section>
+    <h1>Contact Us</h1>
+    <p>Have a question or need a freight quote? Fill out the form below and we’ll get back to you within 24 hours.</p>
+
+    <form name="contact" method="POST" netlify>
+      <input type="hidden" name="form-name" value="contact" />
+
+      <label for="name">Name:</label><br />
+      <input type="text" id="name" name="name" required /><br /><br />
+
+      <label for="email">Email:</label><br />
+      <input type="email" id="email" name="email" required /><br /><br />
+
+      <label for="phone">Phone Number:</label><br />
+      <input type="tel" id="phone" name="phone" /><br /><br />
+
+      <label for="message">Message:</label><br />
+      <textarea id="message" name="message" rows="5" required></textarea><br /><br />
+
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
 </Layout>
+
+Add contact form page
