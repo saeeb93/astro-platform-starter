@@ -1,63 +1,47 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ContextAlert from '../components/ContextAlert.astro';
-import Markdown from '../components/Markdown.astro';
-import { cacheHeaders, randomInt } from '../utils';
-
-export const prerender = false;
-
-const tags = ['/revalidation', 'cats-related', 'all-pets-related'];
-const headers = cacheHeaders(365, tags);
-
-Object.entries(headers).map(([k, v]) => {
-    Astro.response.headers.set(k, v);
-});
-
-const explainer = `
-This is a server-rendered page, last created at \`${new Date().toUTCString()}\` with a few extra response headers:
-
-~~~js
-${JSON.stringify(headers, null, 2)}
-~~~
-
-Meaning: **for browsers,** this is a non-cacheable page. At the **CDN level,** it *is* cacheable for up to a year (and Netlify also automatically busts the cache on new deployments, by default).
-
-But there's something more: the \`Cache-Tag\` header, in tandem with the [purge API](https://docs.netlify.com/platform/caching/#on-demand-invalidation), allows a developer to invalidate at will any
-pieces of content (pages, JSON responses, or whatnot) based on the tags associated with them. Tags are completely up to you to decide on, and allow for very powerful patterns.
-
-In real-world applications, you may want to use [stale-while-revalidate](https://docs.netlify.com/platform/caching/#stale-while-revalidate-directive) as well, so that end-users don't experience 
-a performance hit as pages are being rebuilt.
-
-Use the button below to invlidate a random tag out of this page's tags, then refresh the page.
-`;
-
-const exampleTag = tags[randomInt(0, tags.length - 1)];
 ---
 
-<Layout title="Revalidation">
-    <h1 class="mb-10">Revalidating Server Content</h1>
-    <Markdown content={explainer} class="mb-10" />
-    <div class="flex flex-wrap gap-4">
-        <button class="revalidate-button btn" data-tag={exampleTag}>Invalidate tag: {exampleTag}</button>
-        <button class="btn" onclick="location.reload()">Reload page</button>
-    </div>
+<Layout>
+  <section>
+    <h1>Our Mission</h1>
+    <p>
+      At Making Moves Logistics Services, we are dedicated to providing reliable and efficient transportation services. Our mission is to ensure that every delivery is made on time, every time, with the utmost care for safety and customer satisfaction.
+    </p>
+  </section>
+
+  <section>
+    <h2>Our Values</h2>
+    <ul>
+      <li>
+        <strong>Reliability:</strong> We pride ourselves on being dependable and consistent, ensuring your shipments arrive when promised.
+      </li>
+      <li>
+        <strong>Safety:</strong> Our top priority is the safety of our drivers, our clients' goods, and the communities we serve.
+      </li>
+      <li>
+        <strong>Customer Satisfaction:</strong> We are committed to exceeding our customers’ expectations with exceptional service and attention to detail.
+      </li>
+      <li>
+        <strong>Integrity:</strong> We believe in honest, transparent business practices that build trust with our customers and partners.
+      </li>
+      <li>
+        <strong>Sustainability:</strong> We are actively working towards minimizing our environmental impact by using fuel-efficient trucks and optimizing our routes.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Why Choose Us?</h2>
+    <p>
+      We’re here to help you with all your freight and transportation needs. Let us handle your logistics, so you can focus on growing your business.
+    </p>
+  </section>
+
+  <section>
+    <h2>Contact Us</h2>
+    <p>
+      Have any questions? Get in touch with us through our <a href="/contact">Contact page</a> to learn more about how we can serve your business.
+    </p>
+  </section>
 </Layout>
-
-<script>
-    function revalidate(tag: string) {
-        fetch('/api/revalidate', {
-            method: 'POST',
-            body: JSON.stringify({ tags: [tag] }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        alert(`Invalidated tag: ${tag}`);
-    }
-
-    const revalidateButton = document.querySelectorAll('button.revalidate-button')[0];
-    revalidateButton.addEventListener('click', (e) => {
-        const tag = (e.target as HTMLButtonElement).getAttribute('data-tag');
-        revalidate(tag);
-    });
-</script>
