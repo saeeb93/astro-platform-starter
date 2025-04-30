@@ -1,19 +1,7 @@
-// tailwind.config.cjs
-module.exports = {
-  content: ['./src/**/*.{astro,html,js,jsx,ts,tsx}'],
-  theme: {
-    extend: {
-      colors: {
-        primary: '#004b8d',
-        accent: '#f4a261',
-        background: '#ffffff',
-        text: '#111111',
-        graylight: '#f2f2f2',
-      },
-      fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-      },
-    },
-  },
-  plugins: [],
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  color: #111111;
+  margin: 0;
+  padding: 0;
 }
